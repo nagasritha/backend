@@ -3,11 +3,12 @@ const { open } = require("sqlite");
 const sqlite3 = require("sqlite3");
 const path = require("path");
 const bcrypt = require("bcrypt");
+const cors = require("cors");
 
 const databasePath = path.join(__dirname, "userData.db");
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 let database = null;
@@ -33,6 +34,12 @@ initializeDbAndServer();
 const validatePassword = (password) => {
   return password.length > 4;
 };
+
+app.get("/", async (request, response) => {
+  const details = `SELECT * FROM user;`;
+  const name = await database.all(details);
+  response.send(name);
+});
 
 app.post("/register", async (request, response) => {
   const { username, name, password, gender, location } = request.body;
