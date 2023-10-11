@@ -61,14 +61,14 @@ app.post("/register", async (request, response) => {
       );`;
     if (validatePassword(password)) {
       await database.run(createUserQuery);
-      response.send("User created successfully");
+      response.send({ status: 200, result: "User created successfully" });
     } else {
       response.status(400);
-      response.send("Password is too short");
+      response.send({ status: 400, result: "Password is too short" });
     }
   } else {
     response.status(400);
-    response.send("User already exists");
+    response.send({ status: 400, result: "User already exists" });
   }
 });
 
