@@ -4,6 +4,7 @@ const sqlite3 = require("sqlite3");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
 const databasePath = path.join(__dirname, "userData.db");
 
@@ -79,17 +80,21 @@ app.post("/login", async (request, response) => {
 
   if (databaseUser === undefined) {
     response.status(400);
-    response.send("Invalid user");
+    response.send({ status: 400, result: "Invalid user" });
   } else {
     const isPasswordMatched = await bcrypt.compare(
       password,
       databaseUser.password
     );
     if (isPasswordMatched === true) {
-      response.send("Login success!");
+      const payload = {
+        username,
+      };
+      const token = jwt.sign(payload, "jwt_token");
+      response.send({ jwt_token: token });
     } else {
       response.status(400);
-      response.send("Invalid password");
+      response.send({ status: 400, result: "Invalid password" });
     }
   }
 });
