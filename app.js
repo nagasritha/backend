@@ -37,7 +37,7 @@ const validatePassword = (password) => {
 };
 
 app.get("/", async (request, response) => {
-  const details = `SELECT * FROM user;`;
+  const details = `SELECT * FROM article;`;
   const name = await database.all(details);
   response.send(name);
 });
@@ -134,6 +134,30 @@ app.put("/change-password", async (request, response) => {
       response.send("Invalid current password");
     }
   }
+});
+
+app.get("/create", async (request, response) => {
+  const query = `CREATE TABLE article(
+        id INTEGER NOT NULL PRIMARY KEY,
+        image_url VARCHAR(300)
+        );`;
+  await database.exec(query);
+  response.send("table created");
+});
+
+app.post("/addData", async (request, response) => {
+  const { imageUrl } = request.body;
+  const query1 = `INSERT INTO article(image_url)
+    VALUES('${imageUrl}');`;
+  const query1Result = await database.run(query1);
+  const id = query1Result.lastID;
+  console.log(query1Result);
+});
+
+app.delete("/drop", async (request, response) => {
+  const query1 = `DROP TABLE article;`;
+  await database.run(query1);
+  response.send("Table Droped");
 });
 
 module.exports = app;
