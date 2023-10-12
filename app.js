@@ -154,8 +154,9 @@ app.post("/addData", async (request, response) => {
   console.log(query1Result);
 });
 
-app.delete("/drop", async (request, response) => {
-  const query1 = `DROP TABLE article;`;
+app.delete("/drop/:id", async (request, response) => {
+  const { id } = request.params;
+  const query1 = `DELETE FROM article WHERE id=${id};`;
   await database.run(query1);
   response.send("Table Droped");
 });

@@ -17,7 +17,7 @@ POST http://localhost:3000/addData
 Content-Type: application/json
 
 {
-  "imageUrl":"https://res.cloudinary.com/dwoqcvsxt/image/upload/v1697094884/art6_uawder.png"
+  "imageUrl":"https://res.cloudinary.com/dwoqcvsxt/image/upload/v1697099553/art7_itkxyy.png"
 }
 ###
 
@@ -31,4 +31,4 @@ Content-Type: application/json
 }
 ###
 
-DELETE http://localhost:3000/drop
+DELETE http://localhost:3000/drop/7
